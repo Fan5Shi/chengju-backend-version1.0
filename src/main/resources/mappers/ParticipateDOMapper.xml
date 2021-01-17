@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chengjubackend.demos.mybatis.mapper.ParticipateDOMapper">
+    <resultMap id="Participate" type="com.example.chengjubackend.demos.mybatis.entity.ParticipateDO">
+        <id column="id" property="id" />
+        <id column="event_id" property="eventId" />
+        <id column="user_id" property="userId" />
+    </resultMap>
+
+    <resultMap id="Event" type="com.example.chengjubackend.demos.mybatis.entity.EventDO">
+        <id column="event_id" property="eventId" />
+        <id column="event_name" property="eventName" />
+        <id column="event_addr" property="eventAddr" />
+        <id column="event_time" property="eventTime" />
+        <id column="event_des" property="eventDes" />
+        <id column="user_id" property="userId" />
+    </resultMap>
+
+    <select id="getParticipatedEvents" parameterType="int" resultMap="Event">
+        select e.event_name, e.event_time, e.event_addr
+        from event_info as e join participate as p
+            on e.event_id = p.event_id
+        where p.user_id = #{userId}
+    </select>
+
+    <insert id="insertParticipate" parameterType="com.example.chengjubackend.demos.mybatis.entity.ParticipateDO" useGeneratedKeys="true" keyProperty="id">
+        insert into participate(event_id, user_id)
+        values (#{eventId}, #{userId})
+    </insert>
+
+    <delete id="deleteParticipated">
+        delete from participate
+        where user_id = #{userId} and event_id = #{eventId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chengjubackend.demos.mybatis.mapper.UserDOMapper">
+    <resultMap id="User" type="com.example.chengjubackend.demos.mybatis.entity.UserDO">
+        <id column="user_id" property="userId" />
+        <id column="password" property="password" />
+        <id column="user_name" property="userName" />
+        <id column="user_birth" property="userBirth" />
+        <id column="user_phone" property="userPhone" />
+    </resultMap>
+
+    <sql id="Base_User_List">
+        user_id, password, user_name, user_birth, user_phone
+    </sql>
+
+    <select id="login" resultMap="User">
+        select
+        <include refid="Base_User_List" />
+        from user_info
+        where user_id = #{userId} and password = #{password}
+    </select>
+
+    <select id="findUserById" parameterType="int" resultMap="User">
+        select
+        <include refid="Base_User_List" />
+        from user_info where user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.example.chengjubackend.demos.mybatis.entity.UserDO">
+        insert into user_info(user_id, password, user_name, user_birth, user_phone)
+        values
+            (#{userId}, #{password}, #{userName}, #{userBirth}, #{userPhone})
+    </insert>
+
+    <update id="update" parameterType="com.example.chengjubackend.demos.mybatis.entity.UserDO">
+        UPDATE user_info
+        set user_name=#{userName}, password=#{password}, user_phone=#{userPhone}, user_birth=#{userBirth}
+        where user_id=#{userId}
+    </update>
+</mapper>

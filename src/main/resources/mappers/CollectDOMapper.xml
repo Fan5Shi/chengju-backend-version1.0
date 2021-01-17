@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chengjubackend.demos.mybatis.mapper.CollectDOMapper">
+    <resultMap id="Collect" type="com.example.chengjubackend.demos.mybatis.entity.CollectDO">
+        <id column="id" property="id" />
+        <id column="event_id" property="eventId" />
+        <id column="user_id" property="userId" />
+    </resultMap>
+
+    <resultMap id="Event" type="com.example.chengjubackend.demos.mybatis.entity.EventDO">
+        <id column="event_id" property="eventId" />
+        <id column="event_name" property="eventName" />
+        <id column="event_addr" property="eventAddr" />
+        <id column="event_time" property="eventTime" />
+        <id column="event_des" property="eventDes" />
+        <id column="user_id" property="userId" />
+    </resultMap>
+
+    <select id="getCollectedEvents" parameterType="int" resultMap="Event">
+        select e.event_name, e.event_time, e.event_addr
+        from event_info as e join collect as c
+        on e.event_id = c.event_id
+        where c.user_id = #{userId}
+    </select>
+
+    <insert id="insertCollect" parameterType="com.example.chengjubackend.demos.mybatis.entity.CollectDO" useGeneratedKeys="true" keyProperty="id">
+        insert into collect(event_id, user_id)
+        values (#{eventId}, #{userId})
+    </insert>
+
+    <delete id="deleteCollected">
+        delete from collect
+        where user_id = #{userId} and event_id = #{eventId}
+    </delete>
+
+</mapper>

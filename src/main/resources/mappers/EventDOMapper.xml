@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chengjubackend.demos.mybatis.mapper.EventDOMapper">
+    <resultMap id="Event" type="com.example.chengjubackend.demos.mybatis.entity.EventDO">
+        <id column="event_id" property="eventId" />
+        <id column="event_name" property="eventName" />
+        <id column="event_addr" property="eventAddr" />
+        <id column="event_time" property="eventTime" />
+        <id column="event_des" property="eventDes" />
+        <id column="user_id" property="userId" />
+    </resultMap>
+
+    <sql id="Base_User_List_1">
+        event_name, event_time, event_addr
+    </sql>
+
+    <sql id="Base_User_List_2">
+        event_name, event_time, event_addr, event_des, user_id
+    </sql>
+
+    <select id="getAllEvents" resultMap="Event">
+        select
+        <include refid="Base_User_List_1" />
+        from event_info
+    </select>
+
+    <select id="getEventsByTime" resultMap="Event">
+        select
+        <include refid="Base_User_List_1" />
+        from event_info
+        order by event_time
+    </select>
+
+    <select id="searchEventByName" resultMap="Event">
+        select
+        <include refid="Base_User_List_1" />
+        from event_info
+        where event_name regexp #{eventName}
+    </select>
+
+    <select id="getEventByUserId" resultMap="Event">
+        select
+        <include refid="Base_User_List_1" />
+        from event_info
+        where user_id = #{userId}
+    </select>
+
+    <select id="getEventByEventId" resultMap="Event">
+        select
+        <include refid="Base_User_List_2" />
+        from event_info
+        where event_id = #{eventId}
+    </select>
+
+    <insert id="insertEvent" parameterType="com.example.chengjubackend.demos.mybatis.entity.EventDO" useGeneratedKeys="true" keyProperty="eventId">
+        insert into event_info(event_name, event_addr, event_time, event_des, user_id)
+        values(#{eventName}, #{eventAddr}, #{eventTime}, #{eventDes}, #{userId})
+    </insert>
+
+    <update id="updateEvent" parameterType="com.example.chengjubackend.demos.mybatis.entity.EventDO">
+        UPDATE event_info
+        set event_name=#{eventName}, event_addr=#{eventAddr}, event_time=#{eventTime}, event_des=#{eventDes}
+        where user_id=#{userId} and event_id=#{eventId}
+    </update>
+
+    <delete id="deleteEvent">
+        delete from event_info
+        where event_id=#{eventId}
+    </delete>
+</mapper>
