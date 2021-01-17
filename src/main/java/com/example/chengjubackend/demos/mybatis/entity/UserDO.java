@@ -1,5 +1,6 @@
 package com.example.chengjubackend.demos.mybatis.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
 import java.util.Date;
@@ -46,6 +47,46 @@ public class UserDO {
         this.password = password;
         this.userName = userName;
         this.userBirth = userBirth;
+        this.userPhone = userPhone;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Date getUserBirth() {
+        return userBirth;
+    }
+
+    public void setUserBirth(Date userBirth) {
+        this.userBirth = userBirth;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
 }

@@ -4,6 +4,7 @@ import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
 import com.example.chengjubackend.demos.mybatis.entity.UserDO;
 import com.example.chengjubackend.demos.mybatis.service.UserDOService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class UserDOController {
         }
     }
 
-    @RequestMapping(value="/mine/{userId}", method= RequestMethod.GET)
+    @RequestMapping(value="/mine/{userId:\\d+}", method= RequestMethod.GET)
     @ResponseBody
     public ResultDO getUserInfo(@PathVariable("userId") Integer userId) {
         try {
