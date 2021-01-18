@@ -12,11 +12,6 @@ import lombok.Data;
 public class ResultDO {
 
     /**
-     * 系统名称
-     */
-    private String system;
-
-    /**
      * 响应码
      */
     private int code;
@@ -39,16 +34,10 @@ public class ResultDO {
         this.msg = msg;
     }
 
-    public ResultDO(String system, int code, String msg, Object data) {
-        this.system = system;
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
-
     public ResultDO(int code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
     }
+
 }

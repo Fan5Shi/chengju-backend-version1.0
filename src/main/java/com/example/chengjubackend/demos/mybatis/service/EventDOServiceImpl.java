@@ -11,6 +11,8 @@ import com.example.chengjubackend.demos.mybatis.mapper.EventDOMapper;
 import com.example.chengjubackend.demos.mybatis.mapper.ParticipateDOMapper;
 import com.example.chengjubackend.demos.mybatis.mapper.UserDOMapper;
 import org.apache.catalina.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -25,6 +27,8 @@ import java.util.List;
 
 @Service
 public class EventDOServiceImpl implements EventDOService{
+
+    private final static Logger logger = LoggerFactory.getLogger(EventDOServiceImpl.class);
 
     @Autowired
     private EventDOMapper eventMapper;
@@ -58,6 +62,7 @@ public class EventDOServiceImpl implements EventDOService{
 
     @Override
     public ResultDO searchEventByName(String name) {
+        logger.info("入参：" + name);
         if (name == null) {
             return new EventDOServiceImpl().getAllEvents();
         }
@@ -65,11 +70,12 @@ public class EventDOServiceImpl implements EventDOService{
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "未搜索到相关活动。");
         }
-        return new ResultDO((HttpCode.SUCCESS.getCode()), "以下是搜索到的相关活动。", list);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), "以下是搜索到的相关活动。", list);
     }
 
     @Override
     public ResultDO getEventByUserId(Integer userId) {
+        logger.info("入参：" + userId);
         if (userId == null) {
             return new ResultDO(HttpCode.FAIL.getCode(), "输入的学号不能为空或0");
         }
@@ -77,11 +83,12 @@ public class EventDOServiceImpl implements EventDOService{
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "该用户未发布活动。");
         }
-        return new ResultDO((HttpCode.SUCCESS.getCode()), "以下是该用户发布的活动。", list);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), "以下是该用户发布的活动。", list);
     }
 
     @Override
     public ResultDO getEventByEventId(Integer eventId) {
+        logger.info("入参：" + eventId);
         if (eventId == null) {
             return new ResultDO(HttpCode.FAIL.getCode(), "输入的活动序号不能为空或0");
         }
@@ -94,6 +101,7 @@ public class EventDOServiceImpl implements EventDOService{
 
     @Override
     public ResultDO insert(EventDO eventDO) {
+        logger.info("入参：" + eventDO.toString());
         if (StringUtils.isEmpty(eventDO.getEventName())) {
             return new ResultDO(HttpCode.FAIL.getCode(), "名字不能为空。");
         }
@@ -106,7 +114,7 @@ public class EventDOServiceImpl implements EventDOService{
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "添加失败。", influenceLines);
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "添加成功", influenceLines);
+        return new ResultDO(HttpCode.CREATED.getCode(), "添加成功", influenceLines);
     }
 
     /**
@@ -119,6 +127,7 @@ public class EventDOServiceImpl implements EventDOService{
      */
     @Override
     public ResultDO delete(Integer eventId) {
+        logger.info("入参：" + eventId);
         List<UserDO> listCol = collectDOMapper.getCollectedByEventID(eventId);
         List<UserDO> listPart = participateDOMapper.getParticipatedByEventID(eventId);
         if (!CollectionUtils.isEmpty(listCol) && !CollectionUtils.isEmpty(listPart)) {
@@ -148,15 +157,16 @@ public class EventDOServiceImpl implements EventDOService{
             }
             return new ResultDO(HttpCode.FAIL.getCode(), "父表删除失败。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "父表删除成功", influenceLines);
+        return new ResultDO(HttpCode.DELETE.getCode(), "父表删除成功", influenceLines);
     }
 
     @Override
     public ResultDO update(EventDO eventDO) {
+        logger.info("入参：" + eventDO);
         int influenceLines = eventMapper.updateEvent(eventDO);
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "更新失败。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "更新成功", influenceLines);
+        return new ResultDO(HttpCode.CREATED.getCode(), "更新成功", influenceLines);
     }
 }

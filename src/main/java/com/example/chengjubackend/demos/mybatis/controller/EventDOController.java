@@ -4,15 +4,20 @@ import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
 import com.example.chengjubackend.demos.mybatis.entity.EventDO;
 import com.example.chengjubackend.demos.mybatis.service.EventDOService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLOutput;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Component
 @RestController
 public class EventDOController {
+
+    private final static Logger logger = LoggerFactory.getLogger(EventDOController.class);
 
     @Autowired
     private EventDOService eventService;
@@ -24,6 +29,7 @@ public class EventDOController {
             ResultDO resultDO = eventService.getAllEvents();
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
@@ -35,6 +41,7 @@ public class EventDOController {
             ResultDO resultDO = eventService.getEventsByTime();
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
@@ -46,6 +53,7 @@ public class EventDOController {
             ResultDO resultDO = eventService.searchEventByName(name);
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
@@ -58,6 +66,7 @@ public class EventDOController {
             ResultDO resultDO = eventService.getEventByEventId(eventId);
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
@@ -71,17 +80,21 @@ public class EventDOController {
             resultDO = eventService.insert(eventDO);
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常", resultDO);
         }
     }
 
     @RequestMapping(value="/mine/launched", method=RequestMethod.GET)
     @ResponseBody
-    public ResultDO getLaunchedEvents(@RequestParam(value="userId") Integer userId) {
+    public ResultDO getLaunchedEvents(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute(session.getId());
         try {
             ResultDO resultDO = eventService.getEventByUserId(userId);
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
@@ -93,6 +106,7 @@ public class EventDOController {
             ResultDO resultDO = eventService.delete(eventId);
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
@@ -104,6 +118,7 @@ public class EventDOController {
             ResultDO resultDO = eventService.update(eventDO);
             return resultDO;
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }

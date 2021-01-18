@@ -2,6 +2,8 @@ package com.example.chengjubackend.demos.mybatis.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 活动参与类，记录用户和活动之间的参与关系
  * @author Jilin He
@@ -9,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class ParticipateDO {
+public class ParticipateDO implements Serializable {
 
     /**
      * ID，主键

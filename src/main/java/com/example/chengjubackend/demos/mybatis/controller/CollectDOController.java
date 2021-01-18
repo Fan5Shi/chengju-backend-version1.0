@@ -3,15 +3,21 @@ package com.example.chengjubackend.demos.mybatis.controller;
 import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
 import com.example.chengjubackend.demos.mybatis.entity.CollectDO;
-import com.example.chengjubackend.demos.mybatis.entity.ParticipateDO;
 import com.example.chengjubackend.demos.mybatis.service.CollectDOService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Component
 @RestController
 public class CollectDOController{
+
+    private final static Logger logger = LoggerFactory.getLogger(CollectDOController.class);
 
     @Autowired
     private CollectDOService collectDOService;
@@ -22,16 +28,20 @@ public class CollectDOController{
         try {
             return collectDOService.insertCollect(collectDO);
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
 
     @RequestMapping(value="/mine/collect", method= RequestMethod.GET)
     @ResponseBody
-    public ResultDO getCollectEvents(@RequestParam("userId") Integer userId) {
+    public ResultDO getCollectEvents(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute(session.getId());
         try {
             return collectDOService.getCollectedEvents(userId);
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
@@ -39,10 +49,13 @@ public class CollectDOController{
     @RequestMapping(value="/mine/collect/delete", method= RequestMethod.DELETE)
     @ResponseBody
     public ResultDO deleteParticipateEvent(@RequestParam("eventId") Integer eventId,
-                                           @RequestParam("userId") Integer userId) {
+                                           HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute(session.getId());
         try {
             return collectDOService.deleteCollected(eventId, userId);
         } catch (Exception e) {
+            logger.error("系统异常" + e);
             return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
         }
     }
