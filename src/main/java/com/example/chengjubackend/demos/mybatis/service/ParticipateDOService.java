@@ -33,4 +33,12 @@ public interface ParticipateDOService {
      */
     ResultDO deleteParticipated(Integer eventId, Integer userId);
 
+    /**
+     * 批量取消活动参与
+     * 主要发生的场景是活动表活动被取消，活动参与表需要级联删除对应活动
+     * @param eventId 活动序号
+     * @return 结果类
+     */
+    ResultDO deleteCascadeParticipated(Integer eventId);
+
 }

@@ -52,4 +52,13 @@ public class ParticipateDOServiceImpl implements ParticipateDOService {
         }
         return new ResultDO(HttpCode.SUCCESS.getCode(), "删除成功", influenceLines);
     }
+
+    @Override
+    public ResultDO deleteCascadeParticipated(Integer eventId) {
+        int influenceLines = participateDOMapper.deleteCascadeParticipated(eventId);
+        if (influenceLines <= 0) {
+            return new ResultDO(HttpCode.FAIL.getCode(), "级联删除失败。");
+        }
+        return new ResultDO(HttpCode.SUCCESS.getCode(), "级联删除成功", influenceLines);
+    }
 }

@@ -18,10 +18,24 @@
         <id column="user_id" property="userId" />
     </resultMap>
 
-    <select id="getParticipatedEvents" parameterType="int" resultMap="Event">
+    <resultMap id="User" type="com.example.chengjubackend.demos.mybatis.entity.UserDO">
+        <id column="user_id" property="userId" />
+        <id column="password" property="password" />
+        <id column="user_name" property="userName" />
+        <id column="user_birth" property="userBirth" />
+        <id column="user_phone" property="userPhone" />
+    </resultMap>
+
+    <select id="getParticipatedEvents" parameterType="int" resultMap="User">
+        select u.user_name, u.user_phone
+        from user_info as u join participate as p on u.user_id = p.user_id
+        where p.event_id = #{eventId}
+    </select>
+
+    <select id="getParticipatedByEventID" parameterType="int" resultMap="Event">
         select e.event_name, e.event_time, e.event_addr
         from event_info as e join participate as p
-            on e.event_id = p.event_id
+                                  on e.event_id = p.event_id
         where p.user_id = #{userId}
     </select>
 
@@ -33,6 +47,11 @@
     <delete id="deleteParticipated">
         delete from participate
         where user_id = #{userId} and event_id = #{eventId}
+    </delete>
+
+    <delete id="deleteCascadeParticipated">
+        delete from participate
+        where event_id = #{eventId}
     </delete>
 
 </mapper>

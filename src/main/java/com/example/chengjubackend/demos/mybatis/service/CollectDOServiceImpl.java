@@ -52,4 +52,13 @@ public class CollectDOServiceImpl implements CollectDOService {
         }
         return new ResultDO(HttpCode.SUCCESS.getCode(), "收藏删除成功", influenceLines);
     }
+
+    @Override
+    public ResultDO deleteCascadeCollected(Integer eventId) {
+        int influenceLines = collectDOMapper.deleteCascadeCollected(eventId);
+        if (influenceLines <= 0) {
+            return new ResultDO(HttpCode.FAIL.getCode(), "级联删除失败。");
+        }
+        return new ResultDO(HttpCode.SUCCESS.getCode(), "级联删除成功", influenceLines);
+    }
 }

@@ -1,6 +1,10 @@
 package com.example.chengjubackend.demos.mybatis.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Date;
 
 /**
@@ -10,6 +14,8 @@ import java.util.Date;
  */
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EventDO {
 
     /**
@@ -42,15 +48,4 @@ public class EventDO {
      */
     private Integer userId;
 
-    public EventDO() {
-    }
-
-    public EventDO(Integer eventId, String eventName, String eventAddr, Date eventTime, String eventDes, Integer userId) {
-        this.eventId = eventId;
-        this.eventName = eventName;
-        this.eventAddr = eventAddr;
-        this.eventTime = eventTime;
-        this.eventDes = eventDes;
-        this.userId = userId;
-    }
 }

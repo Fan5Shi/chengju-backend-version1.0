@@ -1,7 +1,9 @@
 package com.example.chengjubackend.demos.mybatis.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -12,6 +14,8 @@ import java.util.Date;
  */
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDO {
 
     /**
@@ -38,17 +42,6 @@ public class UserDO {
      * 用户联系方式
      */
     private String userPhone;
-
-    public UserDO() {
-    }
-
-    public UserDO(Integer userId, String password, String userName, Date userBirth, String userPhone) {
-        this.userId = userId;
-        this.password = password;
-        this.userName = userName;
-        this.userBirth = userBirth;
-        this.userPhone = userPhone;
-    }
 
     public Integer getUserId() {
         return userId;

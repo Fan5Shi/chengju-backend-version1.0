@@ -18,11 +18,25 @@
         <id column="user_id" property="userId" />
     </resultMap>
 
+    <resultMap id="User" type="com.example.chengjubackend.demos.mybatis.entity.UserDO">
+        <id column="user_id" property="userId" />
+        <id column="password" property="password" />
+        <id column="user_name" property="userName" />
+        <id column="user_birth" property="userBirth" />
+        <id column="user_phone" property="userPhone" />
+    </resultMap>
+
     <select id="getCollectedEvents" parameterType="int" resultMap="Event">
         select e.event_name, e.event_time, e.event_addr
         from event_info as e join collect as c
         on e.event_id = c.event_id
         where c.user_id = #{userId}
+    </select>
+
+    <select id="getCollectedByEventID" parameterType="int" resultMap="User">
+        select u.user_name, u.user_phone
+        from user_info as u join collect as c on u.user_id = c.user_id
+        where c.event_id = #{eventId}
     </select>
 
     <insert id="insertCollect" parameterType="com.example.chengjubackend.demos.mybatis.entity.CollectDO" useGeneratedKeys="true" keyProperty="id">
@@ -33,6 +47,11 @@
     <delete id="deleteCollected">
         delete from collect
         where user_id = #{userId} and event_id = #{eventId}
+    </delete>
+
+    <delete id="deleteCascadeCollected">
+        delete from collect
+        where event_id = #{eventId}
     </delete>
 
 </mapper>

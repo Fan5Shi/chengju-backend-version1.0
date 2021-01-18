@@ -26,4 +26,8 @@ public class ParticipateDO {
      */
     private Integer userId;
 
+    public ParticipateDO(Integer eventId, Integer userId) {
+        this.eventId = eventId;
+        this.userId = userId;
+    }
 }

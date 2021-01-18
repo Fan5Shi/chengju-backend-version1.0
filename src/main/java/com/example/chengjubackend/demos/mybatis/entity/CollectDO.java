@@ -26,4 +26,8 @@ public class CollectDO {
      */
     private Integer userId;
 
+    public CollectDO(Integer eventId, Integer userId) {
+        this.eventId = eventId;
+        this.userId = userId;
+    }
 }

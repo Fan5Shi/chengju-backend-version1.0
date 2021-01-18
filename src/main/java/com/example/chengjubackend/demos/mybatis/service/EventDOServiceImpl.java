@@ -2,10 +2,15 @@ package com.example.chengjubackend.demos.mybatis.service;
 
 import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
+import com.example.chengjubackend.demos.mybatis.entity.CollectDO;
 import com.example.chengjubackend.demos.mybatis.entity.EventDO;
+import com.example.chengjubackend.demos.mybatis.entity.ParticipateDO;
 import com.example.chengjubackend.demos.mybatis.entity.UserDO;
+import com.example.chengjubackend.demos.mybatis.mapper.CollectDOMapper;
 import com.example.chengjubackend.demos.mybatis.mapper.EventDOMapper;
+import com.example.chengjubackend.demos.mybatis.mapper.ParticipateDOMapper;
 import com.example.chengjubackend.demos.mybatis.mapper.UserDOMapper;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -26,6 +31,12 @@ public class EventDOServiceImpl implements EventDOService{
 
     @Autowired
     private UserDOMapper userDOMapper;
+
+    @Autowired
+    private CollectDOMapper collectDOMapper;
+
+    @Autowired
+    private ParticipateDOMapper participateDOMapper;
 
     @Override
     public ResultDO getAllEvents() {
@@ -98,13 +109,46 @@ public class EventDOServiceImpl implements EventDOService{
         return new ResultDO(HttpCode.SUCCESS.getCode(), "添加成功", influenceLines);
     }
 
+    /**
+     * 删除活动
+     * 涉及到级联删除 活动收藏表 和 活动参与表
+     * 先删除子表，后删除父表
+     * 若子表删除成功，父表删除失败，需要对子表进行重新更新
+     * @param eventId 活动序号
+     * @return 结果类
+     */
     @Override
     public ResultDO delete(Integer eventId) {
+        List<UserDO> listCol = collectDOMapper.getCollectedByEventID(eventId);
+        List<UserDO> listPart = participateDOMapper.getParticipatedByEventID(eventId);
+        if (!CollectionUtils.isEmpty(listCol) && !CollectionUtils.isEmpty(listPart)) {
+            int partInfluenceLines = participateDOMapper.deleteCascadeParticipated(eventId);
+            int colInfluenceLines = collectDOMapper.deleteCascadeCollected(eventId);
+            if (partInfluenceLines <= 0 && colInfluenceLines <= 0) {
+                return new ResultDO(HttpCode.FAIL.getCode(), "子表级联删除失败，活动删除失败。");
+            }
+        } else if (CollectionUtils.isEmpty(listCol)) {
+            int partInfluenceLines = participateDOMapper.deleteCascadeParticipated(eventId);
+            if (partInfluenceLines <= 0) {
+                return new ResultDO(HttpCode.FAIL.getCode(), "参与表级联删除失败，活动删除失败。");
+            }
+        } else if (CollectionUtils.isEmpty(listPart)) {
+            int colInfluenceLines = collectDOMapper.deleteCascadeCollected(eventId);
+            if (colInfluenceLines <= 0) {
+                return new ResultDO(HttpCode.FAIL.getCode(), "收藏表表级联删除失败，活动删除失败。");
+            }
+        }
         int influenceLines = eventMapper.deleteEvent(eventId);
         if (influenceLines <= 0) {
-            return new ResultDO(HttpCode.FAIL.getCode(), "删除失败。");
+            for(UserDO userDO: listCol) {
+                collectDOMapper.insertCollect(new CollectDO(eventId, userDO.getUserId()));
+            }
+            for (UserDO userDO: listPart) {
+                participateDOMapper.insertParticipate(new ParticipateDO(eventId, userDO.getUserId()));
+            }
+            return new ResultDO(HttpCode.FAIL.getCode(), "父表删除失败。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "删除成功", influenceLines);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), "父表删除成功", influenceLines);
     }
 
     @Override

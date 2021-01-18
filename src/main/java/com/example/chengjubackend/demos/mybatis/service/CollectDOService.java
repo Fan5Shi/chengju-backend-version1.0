@@ -33,4 +33,12 @@ public interface CollectDOService {
      */
     ResultDO deleteCollected(Integer eventId, Integer userId);
 
+    /**
+     * 批量取消活动收藏
+     * 主要发生的场景是活动表活动被取消，活动收藏表需要级联删除对应活动
+     * @param eventId 活动序号
+     * @return 结果类
+     */
+    ResultDO deleteCascadeCollected(Integer eventId);
+
 }
