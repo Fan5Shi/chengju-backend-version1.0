@@ -4,17 +4,18 @@ import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
 import com.example.chengjubackend.demos.mybatis.entity.CollectDO;
 import com.example.chengjubackend.demos.mybatis.service.CollectDOService;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Component
 @RestController
+@Api(tags = "活动收藏控制类")
 public class CollectDOController{
 
     private final static Logger logger = LoggerFactory.getLogger(CollectDOController.class);

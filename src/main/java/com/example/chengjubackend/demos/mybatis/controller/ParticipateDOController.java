@@ -4,6 +4,8 @@ import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
 import com.example.chengjubackend.demos.mybatis.entity.ParticipateDO;
 import com.example.chengjubackend.demos.mybatis.service.ParticipateDOService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 @Component
 @RestController
+@Api(tags = "活动参与控制类")
 public class ParticipateDOController {
 
     private final static Logger logger = LoggerFactory.getLogger(ParticipateDOController.class);
@@ -22,6 +25,7 @@ public class ParticipateDOController {
     @Autowired
     private ParticipateDOService participateDOService;
 
+    @ApiOperation(value="报名活动", notes="报名活动接口")
     @RequestMapping(value="/events/participate", method= RequestMethod.POST)
     @ResponseBody
     public ResultDO addParticipateEvent(@RequestBody ParticipateDO participateDO) {
@@ -34,6 +38,7 @@ public class ParticipateDOController {
         }
     }
 
+    @ApiOperation(value="用户已报名的活动", notes="用户已报名活动接口")
     @RequestMapping(value="/mine/participate", method= RequestMethod.GET)
     @ResponseBody
     public ResultDO getParticipateEvents(HttpServletRequest request) {
@@ -47,6 +52,7 @@ public class ParticipateDOController {
         }
     }
 
+    @ApiOperation(value="取消报名", notes="取消报名接口")
     @RequestMapping(value="/mine/participate/delete", method= RequestMethod.DELETE)
     @ResponseBody
     public ResultDO deleteParticipateEvent(@RequestParam("eventId") Integer eventId,

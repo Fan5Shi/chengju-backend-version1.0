@@ -4,17 +4,20 @@ import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
 import com.example.chengjubackend.demos.mybatis.entity.UserDO;
 import com.example.chengjubackend.demos.mybatis.service.UserDOService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Component
 @RestController
+@Api(tags = "用户控制类")
 public class UserDOController {
 
     private final static Logger logger = LoggerFactory.getLogger(UserDOController.class);
@@ -27,6 +30,7 @@ public class UserDOController {
      * @param userDO
      * @return
      */
+    @ApiOperation(value="注册用户", notes="注册用户接口")
     @RequestMapping(value="/register", method= RequestMethod.POST)
     @ResponseBody
     public ResultDO addUser(@RequestBody UserDO userDO) {
@@ -40,6 +44,7 @@ public class UserDOController {
         }
     }
 
+    @ApiOperation(value="登录", notes="登录接口")
     @RequestMapping(value="/login", method= RequestMethod.POST)
     @ResponseBody
     public ResultDO login(@RequestParam("userId") Integer userId,
@@ -60,12 +65,14 @@ public class UserDOController {
         }
     }
 
+    @ApiOperation(value="登出", notes="登出接口")
     @RequestMapping(value = "/logout", method= RequestMethod.GET)
     public String logout(HttpSession session){
         session.removeAttribute(session.getId());
         return "user logout success";
     }
 
+    @ApiOperation(value="个人主页", notes="个人主页接口")
     @RequestMapping(value="/mine", method= RequestMethod.GET)
     @ResponseBody
     public ResultDO getUserInfo(HttpServletRequest request) {
@@ -80,6 +87,7 @@ public class UserDOController {
         }
     }
 
+    @ApiOperation(value="更新用户个人信息", notes="更新用户个人信息接口")
     @RequestMapping(value="/mine/update", method= RequestMethod.PUT)
     @ResponseBody
     public ResultDO updateUser(@RequestBody UserDO userDO) {

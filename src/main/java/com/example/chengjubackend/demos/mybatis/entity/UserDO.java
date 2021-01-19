@@ -1,6 +1,7 @@
 package com.example.chengjubackend.demos.mybatis.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,31 +18,37 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(value = "用户实体类", description = "记录用户的基本信息和密码等")
 public class UserDO implements Serializable {
 
     /**
      * 学号/用户序号
      */
+    @ApiModelProperty(value = "学号/用户序号", dataType = "int", example = "20170001", required = true)
     private Integer userId;
 
     /**
      * 用户密码
      */
+    @ApiModelProperty(value = "用户密码", dataType = "String", example = "12345678", required = true)
     private String password;
 
     /**
      * 用户姓名
      */
+    @ApiModelProperty(value = "用户姓名", dataType = "String", example = "Tommy", required = true)
     private String userName;
 
     /**
      * 用户生日，格式为"yyyy-MM-dd"
      */
+    @ApiModelProperty(value = "用户生日", dataType = "Date", example = "2021-01-01", required = true)
     private Date userBirth;
 
     /**
      * 用户联系方式
      */
+    @ApiModelProperty(value = "用户联系方式", dataType = "String", example = "10101010", required = true)
     private String userPhone;
 
     public Integer getUserId() {

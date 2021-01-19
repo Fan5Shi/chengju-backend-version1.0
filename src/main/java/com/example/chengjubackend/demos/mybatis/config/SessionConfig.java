@@ -8,25 +8,42 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class SessionConfig implements WebMvcConfigurer{
 
     /**
-     * 设置需要拦截的网页 - 除了登录和登出页以外
+     * 设置需要拦截的网页 - 除了登录页、登出页、swagger页面
      * @param registry
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        List<String> list = new ArrayList<>();
+        list.add("/register");
+        list.add("/mine");
+        list.add("/mine/**");
+//        list.add("/events/participate");
+//        list.add("/mine/participate");
+//        list.add("/mine/participate/delete");
+        list.add("/events");
+        list.add("/events/**");
+//        list.add("/events/search.*");
+//        list.add("/events/specific.*");
+        list.add("/launch");
+//        list.add("/mine/launched.*");
+//        list.add("/mine/launched/delete.*");
+//        list.add("/mine/launched/update.*");
+//        list.add("/events/collect");
+//        list.add("/mine/collect");
+//        list.add("/mine/collect/delete.*");
         registry.addInterceptor(new SecurityInterceptor())
-                .excludePathPatterns("/login")
-                .excludePathPatterns("/logout")
-                .addPathPatterns("/**");
+                .addPathPatterns(list);
     }
 
 

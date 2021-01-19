@@ -4,6 +4,8 @@ import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
 import com.example.chengjubackend.demos.mybatis.entity.EventDO;
 import com.example.chengjubackend.demos.mybatis.service.EventDOService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 @Component
 @RestController
+@Api(tags = "活动控制类")
 public class EventDOController {
 
     private final static Logger logger = LoggerFactory.getLogger(EventDOController.class);
@@ -22,6 +25,7 @@ public class EventDOController {
     @Autowired
     private EventDOService eventService;
 
+    @ApiOperation(value="活动展示列表", notes="活动展示接口")
     @RequestMapping(value="/events", method= RequestMethod.GET)
     @ResponseBody
     public ResultDO getAllEvents() {
@@ -34,6 +38,7 @@ public class EventDOController {
         }
     }
 
+    @ApiOperation(value="活动按时间展示", notes="活动展示接口 - 按时间")
     @RequestMapping(value="/events/bytime", method=RequestMethod.GET)
     @ResponseBody
     public ResultDO getEventsByTime() {
@@ -46,6 +51,7 @@ public class EventDOController {
         }
     }
 
+    @ApiOperation(value="活动搜索", notes="活动搜索接口")
     @RequestMapping(value="/events/search", method=RequestMethod.GET)
     @ResponseBody
     public ResultDO searchByName(@RequestParam(value="name") String name) {
@@ -58,6 +64,7 @@ public class EventDOController {
         }
     }
 
+    @ApiOperation(value="活动详情", notes="活动详情接口")
     @RequestMapping(value="/events/specific", method=RequestMethod.GET)
     @ResponseBody
     public ResultDO getEventById(@RequestParam(value="eventId") Integer eventId) {
@@ -71,6 +78,7 @@ public class EventDOController {
         }
     }
 
+    @ApiOperation(value="发布活动", notes="发布活动接口")
     @RequestMapping(value="/launch", method=RequestMethod.POST)
     @ResponseBody
     public ResultDO launchEvent(@RequestBody EventDO eventDO) {
@@ -85,6 +93,7 @@ public class EventDOController {
         }
     }
 
+    @ApiOperation(value="用户已发布活动", notes="用户已发布活动接口")
     @RequestMapping(value="/mine/launched", method=RequestMethod.GET)
     @ResponseBody
     public ResultDO getLaunchedEvents(HttpServletRequest request) {
@@ -99,6 +108,7 @@ public class EventDOController {
         }
     }
 
+    @ApiOperation(value="取消发布", notes="取消发布接口")
     @RequestMapping(value="/mine/launched/delete", method=RequestMethod.DELETE)
     @ResponseBody
     public ResultDO deleteLaunchedEvent(@RequestParam(value="eventId") Integer eventId) {
@@ -111,6 +121,7 @@ public class EventDOController {
         }
     }
 
+    @ApiOperation(value="更新活动内容", notes="更新活动接口")
     @RequestMapping(value="/mine/launched/update", method=RequestMethod.PUT)
     @ResponseBody
     public ResultDO updateLaunchedEvent(@RequestBody EventDO eventDO) {
