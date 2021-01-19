@@ -27,7 +27,7 @@
 
 swagger接口文档地址：http://localhost:8080/swagger-ui.html
 
-![image-20210119205831834](img\image-20210119205831834.png)
+[image](img\image-20210119205831834.png)
 
 ![image-20210119215555743](img\image-20210119215555743.png)
 
