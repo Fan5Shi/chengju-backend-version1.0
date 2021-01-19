@@ -10,13 +10,13 @@ import com.example.chengjubackend.demos.mybatis.mapper.CollectDOMapper;
 import com.example.chengjubackend.demos.mybatis.mapper.EventDOMapper;
 import com.example.chengjubackend.demos.mybatis.mapper.ParticipateDOMapper;
 import com.example.chengjubackend.demos.mybatis.mapper.UserDOMapper;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
 import java.util.List;
 
 /**
@@ -122,6 +122,7 @@ public class EventDOServiceImpl implements EventDOService{
      * 涉及到级联删除 活动收藏表 和 活动参与表
      * 先删除子表，后删除父表
      * 若子表删除成功，父表删除失败，需要对子表进行重新更新
+     * 子表删除为标记删除
      * @param eventId 活动序号
      * @return 结果类
      */

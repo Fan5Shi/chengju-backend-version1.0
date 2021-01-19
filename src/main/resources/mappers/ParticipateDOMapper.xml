@@ -29,29 +29,36 @@
     <select id="getParticipatedEvents" parameterType="int" resultMap="User">
         select u.user_name, u.user_phone
         from user_info as u join participate as p on u.user_id = p.user_id
-        where p.event_id = #{eventId}
+        where p.event_id = #{eventId} and p.is_delete = "ENABLE"
     </select>
 
     <select id="getParticipatedByEventID" parameterType="int" resultMap="Event">
         select e.event_name, e.event_time, e.event_addr
         from event_info as e join participate as p
                                   on e.event_id = p.event_id
-        where p.user_id = #{userId}
+        where p.user_id = #{userId} and p.is_delete = "ENABLE"
     </select>
 
     <insert id="insertParticipate" parameterType="com.example.chengjubackend.demos.mybatis.entity.ParticipateDO" useGeneratedKeys="true" keyProperty="id">
-        insert into participate(event_id, user_id)
-        values (#{eventId}, #{userId})
+        insert into participate(event_id, user_id, is_delete)
+        values (#{eventId}, #{userId}, "ENABLE")
     </insert>
 
-    <delete id="deleteParticipated">
-        delete from participate
+    <update id="deleteParticipated">
+        update participate
+        set is_delete = "DISABLE"
         where user_id = #{userId} and event_id = #{eventId}
-    </delete>
+    </update>
 
-    <delete id="deleteCascadeParticipated">
-        delete from participate
+    <update id="deleteCascadeParticipated">
+        update participate
+        set is_delete = "DISABLE"
         where event_id = #{eventId}
+    </update>
+
+    <delete id="patchDelete">
+        delete from participate
+        where is_delete = "DISABLE"
     </delete>
 
 </mapper>

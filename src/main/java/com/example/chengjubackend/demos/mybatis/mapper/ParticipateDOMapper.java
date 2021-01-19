@@ -54,4 +54,10 @@ public interface ParticipateDOMapper {
      * @return 被影响的行数
      */
     Integer deleteCascadeParticipated(Integer eventId);
+
+    /**
+     * 批量删除被标记为DISABLE的行
+     * @return 被影响的行数
+     */
+    Integer patchDelete();
 }

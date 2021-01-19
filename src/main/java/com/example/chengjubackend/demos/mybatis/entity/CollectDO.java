@@ -28,6 +28,13 @@ public class CollectDO implements Serializable {
      */
     private Integer userId;
 
+    /**
+     * 标志数据是否可删
+     * 默认为ENABLE，表示数据可见
+     * DISABLE，表示数据不可见，为可删除状态
+     */
+    private String isDelete;
+
     public CollectDO(Integer eventId, Integer userId) {
         this.eventId = eventId;
         this.userId = userId;

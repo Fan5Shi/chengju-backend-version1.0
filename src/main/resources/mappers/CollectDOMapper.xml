@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <id column="event_id" property="eventId" />
         <id column="user_id" property="userId" />
+        <id column="is_delete" property="isDelete" />
     </resultMap>
 
     <resultMap id="Event" type="com.example.chengjubackend.demos.mybatis.entity.EventDO">
@@ -30,28 +31,35 @@
         select e.event_name, e.event_time, e.event_addr
         from event_info as e join collect as c
         on e.event_id = c.event_id
-        where c.user_id = #{userId}
+        where c.user_id = #{userId} and c.is_delete = "ENABLE"
     </select>
 
     <select id="getCollectedByEventID" parameterType="int" resultMap="User">
         select u.user_name, u.user_phone
         from user_info as u join collect as c on u.user_id = c.user_id
-        where c.event_id = #{eventId}
+        where c.event_id = #{eventId} and c.is_delete = "ENABLE"
     </select>
 
     <insert id="insertCollect" parameterType="com.example.chengjubackend.demos.mybatis.entity.CollectDO" useGeneratedKeys="true" keyProperty="id">
-        insert into collect(event_id, user_id)
-        values (#{eventId}, #{userId})
+        insert into collect(event_id, user_id, is_delete)
+        values (#{eventId}, #{userId}, "ENABLE")
     </insert>
 
-    <delete id="deleteCollected">
-        delete from collect
+    <update id="deleteCollected">
+        update collect
+        set is_delete = "DISABLE"
         where user_id = #{userId} and event_id = #{eventId}
-    </delete>
+    </update>
 
-    <delete id="deleteCascadeCollected">
-        delete from collect
+    <update id="deleteCascadeCollected">
+        update collect
+        set is_delete = "DISABLE"
         where event_id = #{eventId}
+    </update>
+
+    <delete id="patchDelete">
+        delete from collect
+        where is_delete = "DISABLE"
     </delete>
 
 </mapper>

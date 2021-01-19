@@ -40,7 +40,7 @@ public interface CollectDOMapper {
     Integer insertCollect(CollectDO collectDO);
 
     /**
-     * 取消活动收藏
+     * 取消活动收藏，标记删除
      * @param eventId 活动序号
      * @param userId 学号/用户序号
      * @return 被影响的行数
@@ -48,10 +48,16 @@ public interface CollectDOMapper {
     Integer deleteCollected(@Param("eventId") Integer eventId, @Param("userId") Integer userId);
 
     /**
-     * 批量取消活动收藏
+     * 批量取消活动收藏，标记删除
      * 主要发生的场景是活动表活动被取消，活动收藏表需要级联删除对应活动
      * @param eventId 活动序号
      * @return 被影响的行数
      */
     Integer deleteCascadeCollected(Integer eventId);
+
+    /**
+     * 批量删除被标记为DISABLE的行
+     * @return 被影响的行数
+     */
+    Integer patchDelete();
 }
