@@ -10,7 +10,11 @@
 
 ## 2. 项目需求
 
--
+- 平台简单易用
+  
+- 可以支持发布、参与和收藏活动的功能
+  
+- 平台能够支持一定量的访问、复杂操作等
 
 ## 3. 技术支持
 
@@ -23,13 +27,13 @@
 
 swagger接口文档地址：http://localhost:8080/swagger-ui.html
 
-![image-20210119205831834](D:\IntelliJ\chengju-backend\img\image-20210119205831834.png)
+![image-20210119205831834](img\image-20210119205831834.png)
 
-![image-20210119205908527](D:\IntelliJ\chengju-backend\img\image-20210119205908527.png)
+![image-20210119215555743](img\image-20210119215555743.png)
 
-![image-20210119205934686](D:\IntelliJ\chengju-backend\img\image-20210119205934686.png)
+![image-20210119205934686](img\image-20210119205934686.png)
 
-![image-20210119205950056](D:\IntelliJ\chengju-backend\img\image-20210119205950056.png)
+![image-20210119205950056](img\image-20210119205950056.png)
 
 **注册接口**：("/register")
 
