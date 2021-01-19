@@ -15,6 +15,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * session设置类
+ * @author Jilin He
+ * @date 2020.01.19
+ */
+
 @Configuration
 public class SessionConfig implements WebMvcConfigurer{
 

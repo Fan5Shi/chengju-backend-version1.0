@@ -11,9 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+/**
+ * 活动参与控制类
+ * @author Jilin He
+ * @date 2020.01.19
+ */
 
 @Component
 @RestController
