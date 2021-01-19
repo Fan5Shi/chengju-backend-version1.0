@@ -111,7 +111,7 @@ swagger接口文档地址：http://localhost:8080/swagger-ui.html
 
 > put请求：**updateLaunchedEvent(@RequestBody EventDO eventDO)**
 
-## 4. 数据库相关
+## 5. 数据库相关
 
 ### 用户基本信息表(user_info)
 
@@ -156,7 +156,7 @@ swagger接口文档地址：http://localhost:8080/swagger-ui.html
 | user_id   | INT(50)     | 用户ID                         | 外键，联合唯一键 |
 | is_delete | VARCHAR(12) | 标记删除-标识符 ENABLE/DISABLE |                  |
 
-## 5. SQL语句
+## 6. SQL语句
 
 #### user_info表单
 
