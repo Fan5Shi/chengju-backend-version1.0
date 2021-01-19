@@ -27,13 +27,13 @@
 
 swagger接口文档地址：http://localhost:8080/swagger-ui.html
 
-[image](img\image-20210119205831834.png)
+![image](https://github.com/Fan5Shi/chengju-backend-version1.0/blob/master/img/image-20210119205831834.png)
 
-![image-20210119215555743](img\image-20210119215555743.png)
+![image-20210119215555743](https://github.com/Fan5Shi/chengju-backend-version1.0/blob/master/img/image-20210119215555743.png)
 
-![image-20210119205934686](img\image-20210119205934686.png)
+![image-20210119205934686](https://github.com/Fan5Shi/chengju-backend-version1.0/blob/master/img/image-20210119205934686.png)
 
-![image-20210119205950056](img\image-20210119205950056.png)
+![image-20210119205950056](https://github.com/Fan5Shi/chengju-backend-version1.0/blob/master/img/image-20210119205950056.png)
 
 **注册接口**：("/register")
 
