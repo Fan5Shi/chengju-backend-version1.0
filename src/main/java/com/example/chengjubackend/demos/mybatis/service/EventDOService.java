@@ -56,7 +56,7 @@ public interface EventDOService {
      * @param eventId 活动序号
      * @return 结果类
      */
-    ResultDO delete(Integer eventId);
+    ResultDO delete(Integer eventId, Integer userId);
 
     /**
      * 更新已发布的活动

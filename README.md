@@ -1,15 +1,113 @@
 # “成聚”活动平台-后端设计文档
 
-## 1. 技术支持
+## 1. 项目背景和目标
+
+​	**项目背景**：校园中的各个社团、组织等每周都发布着新的活动，而他们往往分散在不同的平台上，辐射的范围不大，并且很容易被忽视掉。
+
+​	**项目目标**：我们开发的“成聚”活动平台是一个可以汇集校园内各个活动的平台，人人都能发布自己的活动，人人都能找到自己的兴趣圈。
+
+​	**项目地址**：https://github.com/Fan5Shi/chengju-backend-version1.0.git
+
+## 2. 项目需求
+
+-
+
+## 3. 技术支持
 
 - **Java 1.8**
 - **springboot** **2.3.7.RELEASE**
 - **mysql 5.6.49**
 - **mybatis 2.1.4**
 
+## 4. 接口设计
 
+swagger接口文档地址：http://localhost:8080/swagger-ui.html
 
-## 2. 数据库相关
+![image-20210119205831834](D:\IntelliJ\chengju-backend\img\image-20210119205831834.png)
+
+![image-20210119205908527](D:\IntelliJ\chengju-backend\img\image-20210119205908527.png)
+
+![image-20210119205934686](D:\IntelliJ\chengju-backend\img\image-20210119205934686.png)
+
+![image-20210119205950056](D:\IntelliJ\chengju-backend\img\image-20210119205950056.png)
+
+**注册接口**：("/register")
+
+> post请求：**addUser(@RequestBody UserDO userDO)**
+
+**登录接口**：("/login")
+
+> post请求：**login(@RequestParam("userId") Integer userId, @RequestParam("password") String password**, **HttpServletRequest request)**
+
+**登出接口**：("/logout")
+
+> get请求：**logout(HttpSession session)**
+
+**活动列表界面**：("/events")
+
+> get请求：**getAllEvents() **
+
+**按照时间顺序展示**：("/events/bytime")
+
+> get请求：**getEventsByTime**
+
+**活动列表搜索界面**：("/events/search")
+
+> get请求：**searchByName(@RequestParam(value="name") String name)**
+
+**活动详情页面**：("/events/{eventId}")
+
+> get请求：**getEventById(@PathVariable(value="eventId") Integer eventId)**
+
+**活动收藏**：("/events/{eventId}/collect")
+
+> post请求：**addCollecter(@PathVariable(value="eventId") int eventId, HttpServletRequest request)**
+
+**活动参与**：("/events/{eventId}/participate")
+
+> post请求：**addParticipant(@PathVariable(value="eventId") int eventId, HttpServletRequest request)**
+
+**发布活动页面**：("/launch")
+
+> post请求：**addParticipateEvent(@RequestBody ParticipateDO participateDO)**
+
+**获取个人页面**：("/mine")
+
+> get请求：**getUserInfo(HttpServletRequest request)**
+
+**更新个人信息**：("/mine/update")
+
+> put请求：**updateUser(@RequestBody UserDO userDO)**
+
+**收藏活动管理**：("/mine/collect")
+
+> get请求：**getCollectEvents(HttpServletRequest request)**
+
+**取消收藏**：("/mine/collect")
+
+> delete请求：**deleteParticipateEvent(@RequestParam("eventId") Integer eventId, HttpServletRequest request)**
+
+**已参与活动接口**：("/mine/participate")
+
+> get请求：**getParticipateEvents(HttpServletRequest request)**
+
+**取消参与**：("/mine/participate")
+
+> delete请求：**deleteParticipateEvent(@RequestParam("eventId") Integer eventId, HttpServletRequest request)**
+
+**已发布活动接口**：("/mine/launched")
+
+> get请求：**getLaunchedEvents(HttpServletRequest request)**
+
+**取消发布**：("/mine/launched")
+
+> delete请求：**deleteLaunchedEvent(@RequestParam(value="eventId") Integer eventId, HttpServletRequest request)**
+
+**更新发布活动**：("/mine/launched")
+
+> put请求：**updateLaunchedEvent(@RequestBody EventDO eventDO)**
+
+## 4. 数据库相关
 
 ### 用户基本信息表(user_info)
 
@@ -43,103 +141,18 @@
 | id       | INT(20)  | 数据主键 | 主键自增         |
 | event_id | INT(20)  | 活动ID   | 联合唯一键 |
 | user_id  | INT(50)  | 用户ID   | 联合唯一键 |
+| is_delete | VARCHAR(12) | 标记删除-标识符 ENABLE/DISABLE |  |
 
 ### 收藏活动表(collect)
 
-| 字段名称 | 数据类型 | 中文含义 | 索引             |
-| -------- | -------- | -------- | ---------------- |
-| id       | INT(20)  | 数据主键 | 主键自增         |
-| event_id | INT(20)  | 活动ID   | 外键，联合唯一键 |
-| user_id  | INT(50)  | 用户ID   | 外键，联合唯一键 |
+| 字段名称  | 数据类型    | 中文含义                       | 索引             |
+| --------- | ----------- | ------------------------------ | ---------------- |
+| id        | INT(20)     | 数据主键                       | 主键自增         |
+| event_id  | INT(20)     | 活动ID                         | 外键，联合唯一键 |
+| user_id   | INT(50)     | 用户ID                         | 外键，联合唯一键 |
+| is_delete | VARCHAR(12) | 标记删除-标识符 ENABLE/DISABLE |                  |
 
-#### 备注：
-2021.1.17 取消外键
-
-#### 余留问题：
-**问题一**： 如何解决级联删除：如果某个活动取消发布了，那么同时期报名的人也应该被消除
-
-
-
-## 3. 接口设计
-
-**注册界面**：("/register")
-
-> post请求：**addUser(@RequestBody UserDO userDO)**
-
-**登录界面**：("/login")
-
-> post请求：**login(@RequestParam("userId") Integer userId, @RequestParam("password") String password**
-
-**活动列表界面**：("/events")
-
-> get请求：**getAllEvents() **
-
-**按照时间顺序展示**：("/events/bytime")
-
-> get请求：**getEventsByTime**
-
-**活动列表搜索界面**：("/events/search")
-
-> get请求：**searchByName(@RequestParam(value="name") String name)**
-
-**活动详情页面**：("/events/specific")
-
-> get请求：**getEventById(@RequestBody Event event)** / **getEventById(int id)**
-
-**活动收藏**：("/events/collect")
-
-> post请求：**addCollectEvent(@RequestBody CollectDO collectDO)**
-
-**活动参与**：("/events/participate")
-
-> post请求：**participateEventById(@PathVariable(value="eventId") int eventId, @PathVariable(value="userId") int userId)**
-
-**发布活动页面**：("/launch")
-
-> post请求：**addParticipateEvent(@RequestBody ParticipateDO participateDO)**
-
-**获取个人页面**：("/mine/{userId}")
-
-> get请求：**getUserInfo(@PathVariable("userId") Integer userId)**
-
-**更新个人信息**：("/mine/update")
-
-> put请求：**updateUser(@RequestBody UserDO userDO)**
-
-**收藏活动管理**：("/mine/collect")
-
-> get请求：**getCollectEvents(@RequestParam("userId") Integer userId)**
-
-**取消收藏**：("/mine/collect/delete")
-
-> delete请求：**deleteParticipateEvent(@RequestParam("eventId") Integer eventId, @RequestParam("userId") Integer userId)**
-
-**活动参与管理**：("/mine/participate")
-
-> get请求：**getParticipateEvents(@RequestParam("userId") Integer userId)**
-
-**取消参与**：("/mine/participate/delete")
-
-> delete请求：**deleteParticipateEvent(@RequestParam("eventId") Integer eventId,
-@RequestParam("userId") Integer userId)**
-
-**发布活动管理**：("/mine/launched")
-
-> get请求：**getLaunchedEvents(@RequestParam(value="userId") Integer userId)**
-
-**取消发布**：("/mine/launched/delete}")
-
-> delete请求：**deleteLaunchedEvent(@RequestParam(value="eventId") Integer eventId)**
-
-
-
-**更新活动**：("/mine/launched/update")
-
-> put请求：**updateLaunchedEvent(@RequestBody EventDO eventDO)**
-
-
-
-## 4. SQL语句
+## 5. SQL语句
 
 #### user_info表单
 
@@ -211,19 +224,29 @@ UPDATE event_info set event_name=#{eventName}, event_addr=#{eventAddr}, event_ti
 > insert
 
 ```sql
-insert into collect(event_id, user_id) values (#{eventId}, #{userId})
+insert into collect(event_id, user_id, is_delete) values (#{eventId}, #{userId}, "ENABLE")
 ```
 
 > select
 
 ```sql
-select e.event_name, e.event_time, e.event_addr from event_info as e join collect as c on e.event_id = c.event_id where c.user_id = #{userId}
+select e.event_name, e.event_time, e.event_addr from event_info as e join collect as c on e.event_id = c.event_id where c.user_id = #{userId} and is_delete = "ENABLE"
+
+select u.user_name, u.user_phone from user_info as u join collect as c on u.user_id = c.user_id where c.event_id = #{eventId} and is_delete = "ENABLE"
+```
+
+> update 标记删除
+
+```sql
+update collect set is_delete = "DISABLE" where event_id = #{eventId} and user_id = #{userId}
+
+update collect set is_delete = "DISABLE" where event_id = #{eventId}
 ```
 
 > delete
 
 ```
-delete from collect where user_id = #{userId} and event_id = #{eventId}
+delete from collect where is_delete = "DISABLE"
 ```
 
 #### participate表单
@@ -231,17 +254,27 @@ delete from collect where user_id = #{userId} and event_id = #{eventId}
 > insert
 
 ```sql
-insert into participate(event_id, user_id) values (#{eventId}, #{userId})
+insert into participate(event_id, user_id, is_delete) values (#{eventId}, #{userId}, "ENABLE")
 ```
 
 > select
 
 ```sql
-select e.event_name, e.event_time, e.event_addr from event_info as e join participate as p on e.event_id = p.event_id where p.user_id = #{userId}
+select e.event_name, e.event_time, e.event_addr from event_info as e join participate as p on e.event_id = p.event_id where p.user_id = #{userId} and is_delete = "ENABLE"
+
+select u.user_name, u.user_phone from user_info as u join participate as p on u.user_id = p.user_id where p.event_id = #{eventId} and is_delete = "ENABLE"
+```
+
+> update 标记删除
+
+```sql
+update participate set is_delete = "DISABLE" where event_id = #{eventId} and user_id = #{userId}
+
+update participate set is_delete = "DISABLE" where event_id = #{eventId}
 ```
 
 > delete
 
 ```
-delete from participate where user_id = #{userId} and event_id = #{eventId}
+delete from participate where is_delete = "DISABLE"
 ```

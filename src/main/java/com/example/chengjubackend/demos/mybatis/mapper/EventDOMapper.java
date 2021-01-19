@@ -2,6 +2,8 @@ package com.example.chengjubackend.demos.mybatis.mapper;
 
 import com.example.chengjubackend.demos.mybatis.entity.EventDO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -60,7 +62,7 @@ public interface EventDOMapper {
      * @param eventId 活动序号
      * @return 被影响的行数
      */
-    int deleteEvent(Integer eventId);
+    int deleteEvent(@Param("eventId") Integer eventId, @Param("userId") Integer userId);
 
     /**
      * 更新已发布的活动

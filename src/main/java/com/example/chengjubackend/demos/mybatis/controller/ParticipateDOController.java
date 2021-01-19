@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,10 +32,13 @@ public class ParticipateDOController {
     private ParticipateDOService participateDOService;
 
     @ApiOperation(value="报名活动", notes="报名活动接口")
-    @RequestMapping(value="/events/participate", method= RequestMethod.POST)
+    @RequestMapping(value="/events/{eventId}/participate", method= RequestMethod.POST)
     @ResponseBody
-    public ResultDO addParticipateEvent(@RequestBody ParticipateDO participateDO) {
-//        System.out.println(participateDO.toString());
+    public ResultDO addParticipant(@PathVariable(value="eventId") int eventId,
+                                        HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute(session.getId());
+        ParticipateDO participateDO = new ParticipateDO(eventId, userId);
         try {
             return participateDOService.insertParticipate(participateDO);
         } catch (Exception e) {
@@ -58,7 +62,7 @@ public class ParticipateDOController {
     }
 
     @ApiOperation(value="取消报名", notes="取消报名接口")
-    @RequestMapping(value="/mine/participate/delete", method= RequestMethod.DELETE)
+    @RequestMapping(value="/mine/participate", method= RequestMethod.DELETE)
     @ResponseBody
     public ResultDO deleteParticipateEvent(@RequestParam("eventId") Integer eventId,
                                            HttpServletRequest request) {

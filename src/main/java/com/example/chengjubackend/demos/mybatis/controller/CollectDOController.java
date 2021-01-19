@@ -29,9 +29,13 @@ public class CollectDOController{
     @Autowired
     private CollectDOService collectDOService;
 
-    @RequestMapping(value="/events/collect", method= RequestMethod.POST)
+    @RequestMapping(value="/events/{eventId}/collect", method= RequestMethod.POST)
     @ResponseBody
-    public ResultDO addCollectEvent(@RequestBody CollectDO collectDO) {
+    public ResultDO addCollecter(@PathVariable(value="eventId") int eventId,
+                                 HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute(session.getId());
+        CollectDO collectDO = new CollectDO(eventId, userId);
         try {
             return collectDOService.insertCollect(collectDO);
         } catch (Exception e) {
@@ -53,7 +57,7 @@ public class CollectDOController{
         }
     }
 
-    @RequestMapping(value="/mine/collect/delete", method= RequestMethod.DELETE)
+    @RequestMapping(value="/mine/collect", method= RequestMethod.DELETE)
     @ResponseBody
     public ResultDO deleteParticipateEvent(@RequestParam("eventId") Integer eventId,
                                            HttpServletRequest request) {

@@ -34,20 +34,9 @@ public class SessionConfig implements WebMvcConfigurer{
         list.add("/register");
         list.add("/mine");
         list.add("/mine/**");
-//        list.add("/events/participate");
-//        list.add("/mine/participate");
-//        list.add("/mine/participate/delete");
         list.add("/events");
         list.add("/events/**");
-//        list.add("/events/search.*");
-//        list.add("/events/specific.*");
         list.add("/launch");
-//        list.add("/mine/launched.*");
-//        list.add("/mine/launched/delete.*");
-//        list.add("/mine/launched/update.*");
-//        list.add("/events/collect");
-//        list.add("/mine/collect");
-//        list.add("/mine/collect/delete.*");
         registry.addInterceptor(new SecurityInterceptor())
                 .addPathPatterns(list);
     }

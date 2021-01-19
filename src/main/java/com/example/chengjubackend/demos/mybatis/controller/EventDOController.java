@@ -70,9 +70,9 @@ public class EventDOController {
     }
 
     @ApiOperation(value="活动详情", notes="活动详情接口")
-    @RequestMapping(value="/events/specific", method=RequestMethod.GET)
+    @RequestMapping(value="/events/{eventId}", method=RequestMethod.GET)
     @ResponseBody
-    public ResultDO getEventById(@RequestParam(value="eventId") Integer eventId) {
+    public ResultDO getEventById(@PathVariable(value="eventId") Integer eventId) {
         System.out.println(eventId.toString());
         try {
             ResultDO resultDO = eventService.getEventByEventId(eventId);
@@ -114,11 +114,14 @@ public class EventDOController {
     }
 
     @ApiOperation(value="取消发布", notes="取消发布接口")
-    @RequestMapping(value="/mine/launched/delete", method=RequestMethod.DELETE)
+    @RequestMapping(value="/mine/launched", method=RequestMethod.DELETE)
     @ResponseBody
-    public ResultDO deleteLaunchedEvent(@RequestParam(value="eventId") Integer eventId) {
+    public ResultDO deleteLaunchedEvent(@RequestParam(value="eventId") Integer eventId,
+                                        HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute(session.getId());
         try {
-            ResultDO resultDO = eventService.delete(eventId);
+            ResultDO resultDO = eventService.delete(eventId, userId);
             return resultDO;
         } catch (Exception e) {
             logger.error("系统异常" + e);

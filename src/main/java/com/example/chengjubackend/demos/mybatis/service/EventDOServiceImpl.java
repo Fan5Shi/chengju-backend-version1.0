@@ -127,7 +127,7 @@ public class EventDOServiceImpl implements EventDOService{
      * @return 结果类
      */
     @Override
-    public ResultDO delete(Integer eventId) {
+    public ResultDO delete(Integer eventId, Integer userId) {
         logger.info("入参：" + eventId);
         List<UserDO> listCol = collectDOMapper.getCollectedByEventID(eventId);
         List<UserDO> listPart = participateDOMapper.getParticipatedByEventID(eventId);
@@ -148,7 +148,7 @@ public class EventDOServiceImpl implements EventDOService{
                 return new ResultDO(HttpCode.FAIL.getCode(), "收藏表表级联删除失败，活动删除失败。");
             }
         }
-        int influenceLines = eventMapper.deleteEvent(eventId);
+        int influenceLines = eventMapper.deleteEvent(eventId, userId);
         if (influenceLines <= 0) {
             for(UserDO userDO: listCol) {
                 collectDOMapper.insertCollect(new CollectDO(eventId, userDO.getUserId()));
