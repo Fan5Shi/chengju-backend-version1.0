@@ -2,7 +2,6 @@ package com.example.chengjubackend.demos.mybatis.service;
 
 import com.example.chengjubackend.demos.mybatis.api.enums.HttpCode;
 import com.example.chengjubackend.demos.mybatis.api.result.ResultDO;
-import com.example.chengjubackend.demos.mybatis.controller.UserDOController;
 import com.example.chengjubackend.demos.mybatis.entity.CollectDO;
 import com.example.chengjubackend.demos.mybatis.entity.EventDO;
 import com.example.chengjubackend.demos.mybatis.mapper.CollectDOMapper;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+
 import java.util.List;
 
 /**
@@ -37,7 +37,7 @@ public class CollectDOServiceImpl implements CollectDOService {
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "该用户未收藏任何活动。");
         }
-        return new ResultDO((HttpCode.SUCCESS.getCode()), "以下是该用户收藏的活动。", list);
+        return new ResultDO((HttpCode.SUCCESS.getCode()), HttpCode.SUCCESS.getMsg() + " 以下是该用户收藏的活动。", list);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CollectDOServiceImpl implements CollectDOService {
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "收藏添加失败。", influenceLines);
         }
-        return new ResultDO(HttpCode.CREATED.getCode(), "收藏添加成功", influenceLines);
+        return new ResultDO(HttpCode.CREATED.getCode(), HttpCode.CREATED.getMsg() + " 收藏添加成功", influenceLines);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CollectDOServiceImpl implements CollectDOService {
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "收藏删除失败。");
         }
-        return new ResultDO(HttpCode.DELETE.getCode(), "收藏删除成功", influenceLines);
+        return new ResultDO(HttpCode.DELETE.getCode(), HttpCode.DELETE.getMsg() + " 收藏删除成功", influenceLines);
     }
 
     @Override
@@ -68,6 +68,6 @@ public class CollectDOServiceImpl implements CollectDOService {
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "级联删除失败。");
         }
-        return new ResultDO(HttpCode.DELETE.getCode(), "级联删除成功", influenceLines);
+        return new ResultDO(HttpCode.DELETE.getCode(), HttpCode.DELETE.getMsg() + " 级联删除成功", influenceLines);
     }
 }

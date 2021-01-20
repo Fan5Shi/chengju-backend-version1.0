@@ -48,7 +48,7 @@ public class EventDOServiceImpl implements EventDOService{
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "目前没有活动。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "已展示全部活动。", list);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 已展示全部活动。", list);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class EventDOServiceImpl implements EventDOService{
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "目前没有活动。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "已按时间顺序展示全部活动。", list);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 按时间顺序展示全部活动如下。", list);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class EventDOServiceImpl implements EventDOService{
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "未搜索到相关活动。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "以下是搜索到的相关活动。", list);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 以下是搜索到的相关活动。", list);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class EventDOServiceImpl implements EventDOService{
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "该用户未发布活动。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "以下是该用户发布的活动。", list);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 以下是该用户发布的活动。", list);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class EventDOServiceImpl implements EventDOService{
         if (eventDO == null) {
             return new ResultDO(HttpCode.FAIL.getCode(), "无该活动。");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "根据ID查找活动成功。", eventDO);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 根据ID查找活动成功。", eventDO);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class EventDOServiceImpl implements EventDOService{
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "添加失败。", influenceLines);
         }
-        return new ResultDO(HttpCode.CREATED.getCode(), "添加成功", influenceLines);
+        return new ResultDO(HttpCode.CREATED.getCode(), HttpCode.CREATED.getMsg() + " 添加成功", influenceLines);
     }
 
     /**
@@ -158,7 +158,7 @@ public class EventDOServiceImpl implements EventDOService{
             }
             return new ResultDO(HttpCode.FAIL.getCode(), "父表删除失败。");
         }
-        return new ResultDO(HttpCode.DELETE.getCode(), "父表删除成功", influenceLines);
+        return new ResultDO(HttpCode.DELETE.getCode(), HttpCode.DELETE.getMsg() + " 父表删除成功", influenceLines);
     }
 
     @Override
@@ -168,6 +168,6 @@ public class EventDOServiceImpl implements EventDOService{
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "更新失败。");
         }
-        return new ResultDO(HttpCode.CREATED.getCode(), "更新成功", influenceLines);
+        return new ResultDO(HttpCode.CREATED.getCode(), HttpCode.CREATED.getMsg() + " 更新成功", influenceLines);
     }
 }

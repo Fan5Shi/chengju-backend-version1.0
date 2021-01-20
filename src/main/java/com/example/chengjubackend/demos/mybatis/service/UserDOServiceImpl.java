@@ -32,35 +32,39 @@ public class UserDOServiceImpl implements UserDOService{
         UserDO userDO = userMapper.findUserById(userId);
         System.out.println(userDO.toString());
         if (userDO.getUserId() == null) {
-            return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), "不存在该用户！");
+            return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), HttpCode.UNAUTHORIZED.getMsg() + " 不存在该用户！");
         }
         if (!userDO.getPassword().equals(password)) {
-            return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), "用户密码错误！");
+            return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), HttpCode.UNAUTHORIZED.getMsg() + " 用户密码错误！");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "登录成功", userDO);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 登录成功", userDO);
     }
 
     @Override
     public ResultDO findUserById(Integer userId) {
         logger.info("入参：" + userId);
         if (userId == null) {
-            return new ResultDO(HttpCode.FAIL.getCode(), "输入的学号不能为空或0");
+            return new ResultDO(HttpCode.FAIL.getCode(), "输入的学号不能为空或0！");
         }
         UserDO userDO = userMapper.findUserById(userId);
         if (userDO == null) {
-            return new ResultDO(HttpCode.FAIL.getCode(), "不存在此用户");
+            return new ResultDO(HttpCode.FAIL.getCode(), "不存在此用户！");
         }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), "查找成功", userDO);
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 查找成功", userDO);
     }
 
     @Override
     public ResultDO insert(UserDO userDO) {
         logger.info("入参：" + userDO.toString());
+        UserDO user = userMapper.findUserById(userDO.getUserId());
+        if (user != null) {
+            return new ResultDO(HttpCode.FAIL.getCode(), "已存在该用户！");
+        }
         int influencedLines = userMapper.insert(userDO);
         if (influencedLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "插入失败");
         }
-        return new ResultDO(HttpCode.CREATED.getCode(), "插入成功", influencedLines);
+        return new ResultDO(HttpCode.CREATED.getCode(), HttpCode.CREATED.getMsg() + " 插入成功", influencedLines);
     }
 
     @Override

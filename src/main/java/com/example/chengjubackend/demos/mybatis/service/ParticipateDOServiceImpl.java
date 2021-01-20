@@ -36,7 +36,7 @@ public class ParticipateDOServiceImpl implements ParticipateDOService {
         if (CollectionUtils.isEmpty(list)) {
             return new ResultDO(HttpCode.FAIL.getCode(), "该用户未参与任何活动。");
         }
-        return new ResultDO((HttpCode.SUCCESS.getCode()), "以下是该用户参与的活动。", list);
+        return new ResultDO((HttpCode.SUCCESS.getCode()), HttpCode.SUCCESS.getMsg() + " 以下是该用户参与的活动。", list);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ParticipateDOServiceImpl implements ParticipateDOService {
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "添加失败。", influenceLines);
         }
-        return new ResultDO(HttpCode.CREATED.getCode(), "添加成功", influenceLines);
+        return new ResultDO(HttpCode.CREATED.getCode(), HttpCode.CREATED.getMsg() + " 添加成功", influenceLines);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ParticipateDOServiceImpl implements ParticipateDOService {
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "删除失败。");
         }
-        return new ResultDO(HttpCode.DELETE.getCode(), "删除成功", influenceLines);
+        return new ResultDO(HttpCode.DELETE.getCode(), HttpCode.DELETE.getMsg() + " 删除成功", influenceLines);
     }
 
     @Override
@@ -67,6 +67,6 @@ public class ParticipateDOServiceImpl implements ParticipateDOService {
         if (influenceLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "级联删除失败。");
         }
-        return new ResultDO(HttpCode.DELETE.getCode(), "级联删除成功", influenceLines);
+        return new ResultDO(HttpCode.DELETE.getCode(), HttpCode.DELETE.getMsg() + " 级联删除成功", influenceLines);
     }
 }
