@@ -11,6 +11,7 @@
 ## 2. 项目需求和框架
 
 ​	**核心需求：**  
+
     		- 平台简单易用
     
     		- 可以支持发布、参与和收藏活动的功能
@@ -19,11 +20,11 @@
 
 ​	**项目框架：**
 
-![image](img\QQ截图20210120091836.png)
+![image](https://github.com/Fan5Shi/chengju-backend-version1.0/blob/master/img/QQ%E6%88%AA%E5%9B%BE20210120091836.png)
 
 ​	**程序流程图部分展示：**
 
-​	![image-20210120094011628](img\image-20210120094011628.png)
+​	![image-20210120094011628](https://github.com/Fan5Shi/chengju-backend-version1.0/blob/master/img/image-20210120094011628.png)
 
 ## 3. 技术支持
 
