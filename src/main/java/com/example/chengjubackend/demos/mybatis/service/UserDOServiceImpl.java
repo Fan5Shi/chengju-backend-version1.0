@@ -7,6 +7,7 @@ import com.example.chengjubackend.demos.mybatis.mapper.UserDOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,6 +24,9 @@ public class UserDOServiceImpl implements UserDOService{
     @Autowired
     private UserDOMapper userMapper;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Override
     public ResultDO login(Integer userId, String password) {
         logger.info("入参：userId - " + userId + "；password - " + password);
@@ -34,7 +38,7 @@ public class UserDOServiceImpl implements UserDOService{
         if (userDO.getUserId() == null) {
             return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), HttpCode.UNAUTHORIZED.getMsg() + " 不存在该用户！");
         }
-        if (!userDO.getPassword().equals(password)) {
+        if (!encoder.matches(password, userDO.getPassword())) {
             return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), HttpCode.UNAUTHORIZED.getMsg() + " 用户密码错误！");
         }
         return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 登录成功", userDO);
@@ -55,6 +59,7 @@ public class UserDOServiceImpl implements UserDOService{
 
     @Override
     public ResultDO insert(UserDO userDO) {
+        userDO.setPassword(encoder.encode(userDO.getPassword().trim()));
         logger.info("入参：" + userDO.toString());
         UserDO user = userMapper.findUserById(userDO.getUserId());
         if (user != null) {

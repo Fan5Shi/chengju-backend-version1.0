@@ -31,7 +31,7 @@ public class SessionConfig implements WebMvcConfigurer{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> list = new ArrayList<>();
-        list.add("/register");
+//        list.add("/register");
         list.add("/mine");
         list.add("/mine/**");
         list.add("/events");
