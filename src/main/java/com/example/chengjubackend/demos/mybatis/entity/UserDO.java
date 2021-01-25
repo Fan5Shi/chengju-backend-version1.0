@@ -1,5 +1,6 @@
 package com.example.chengjubackend.demos.mybatis.entity;
 
+import com.example.chengjubackend.demos.mybatis.entity.base.BaseDO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户类，记录用户的基本信息和密码等
+ * 用户类，记录用户的基本信息等
  * @author Jilin He
  * @date 2020.01.17
  */
@@ -19,19 +20,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "用户实体类", description = "记录用户的基本信息和密码等")
-public class UserDO implements Serializable {
+public class UserDO extends BaseDO implements Serializable {
 
     /**
      * 学号/用户序号
      */
     @ApiModelProperty(value = "学号/用户序号", dataType = "int", example = "20170001", required = true)
     private Integer userId;
-
-    /**
-     * 用户密码
-     */
-    @ApiModelProperty(value = "用户密码", dataType = "String", example = "12345678", required = true)
-    private String password;
 
     /**
      * 用户姓名
@@ -51,20 +46,18 @@ public class UserDO implements Serializable {
     @ApiModelProperty(value = "用户联系方式", dataType = "String", example = "10101010", required = true)
     private String userPhone;
 
+    /**
+     * 用户联系方式 email
+     */
+    @ApiModelProperty(value = "用户联系方式email", dataType = "String", example = "10101010", required = true)
+    private String userEmail;
+
     public Integer getUserId() {
         return userId;
     }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getUserName() {

@@ -3,40 +3,61 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.chengjubackend.demos.mybatis.mapper.UserDOMapper">
-    <resultMap id="User" type="com.example.chengjubackend.demos.mybatis.entity.UserDO">
+    <resultMap id="User_1" type="com.example.chengjubackend.demos.mybatis.entity.UserDO">
         <id column="user_id" property="userId" />
-        <id column="password" property="password" />
         <id column="user_name" property="userName" />
         <id column="user_birth" property="userBirth" />
         <id column="user_phone" property="userPhone" />
+        <id column="user_email" property="userEmail" />
     </resultMap>
 
-    <sql id="Base_User_List">
-        user_id, password, user_name, user_birth, user_phone
+    <resultMap id="User_2" type="com.example.chengjubackend.demos.mybatis.entity.UserDO">
+        <id column="user_id" property="userId" />
+        <id column="user_name" property="userName" />
+        <id column="user_birth" property="userBirth" />
+        <id column="user_phone" property="userPhone" />
+        <id column="user_email" property="userEmail" />
+        <id column="create_time" property="createTime" />
+        <id column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_User_List_1">
+        user_id, user_name, user_birth, user_phone, user_email
     </sql>
 
-    <select id="login" resultMap="User">
+    <sql id="Base_User_List_2">
+        user_id, user_name, user_birth, user_phone, user_email, create_time, update_time
+    </sql>
+
+    <select id="findUserById" resultMap="User_1">
         select
-        <include refid="Base_User_List" />
+        <include refid="Base_User_List_1" />
         from user_info
-        where user_id = #{userId} and password = #{password}
+        where user_id = #{userId}
     </select>
 
-    <select id="findUserById" parameterType="int" resultMap="User">
+    <select id="findUserByIdAdmin" parameterType="int" resultMap="User_2">
         select
-        <include refid="Base_User_List" />
-        from user_info where user_id = #{userId}
+        <include refid="Base_User_List_2" />
+        from user_info
+        where user_id = #{userId}
     </select>
 
     <insert id="insert" parameterType="com.example.chengjubackend.demos.mybatis.entity.UserDO">
-        insert into user_info(user_id, password, user_name, user_birth, user_phone)
+        insert into user_info(user_id, user_name, user_birth, user_phone, user_email)
         values
-            (#{userId}, #{password}, #{userName}, #{userBirth}, #{userPhone})
+            (#{userId}, #{userName}, #{userBirth}, #{userPhone}, #{userEmail})
     </insert>
 
     <update id="update" parameterType="com.example.chengjubackend.demos.mybatis.entity.UserDO">
         UPDATE user_info
-        set user_name=#{userName}, password=#{password}, user_phone=#{userPhone}, user_birth=#{userBirth}
+        set user_name=#{userName}, user_phone=#{userPhone}, user_birth=#{userBirth},
+            user_email=#{userEmail}, create_time=#{createTime}, update_time=#{updateTime}
         where user_id=#{userId}
     </update>
+
+    <delete id="deleteAdmin">
+        DELETE from user_info
+        where user_id = #{userId}
+    </delete>
 </mapper>

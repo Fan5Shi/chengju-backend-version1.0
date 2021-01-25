@@ -12,19 +12,18 @@ import com.example.chengjubackend.demos.mybatis.entity.UserDO;
 public interface UserDOService {
 
     /**
-     * 用户登录
+     * 根据学号/用户序号获取用户的详细信息
      * @param userId 学号/用户序号
-     * @param password 密码
-     * @return 结果类，包括响应码，附带信息，附带对象等
+     * @return 结果类
      */
-    ResultDO login(Integer userId, String password);
+    ResultDO findUserById(Integer userId);
 
     /**
      * 根据学号/用户序号获取用户的详细信息
      * @param userId 学号/用户序号
      * @return 结果类
      */
-    ResultDO findUserById(Integer userId);
+    ResultDO findUserByIdAdmin(Integer userId);
 
     /**
      * 新增用户
@@ -39,4 +38,11 @@ public interface UserDOService {
      * @return 结果类
      */
     ResultDO update(UserDO userDO);
+
+    /**
+     * 删除用户
+     * @param userDO 用户实体
+     * @return 结果类
+     */
+    ResultDO delete(Integer userId);
 }

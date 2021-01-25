@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,13 @@ public class UserDOController {
     @Autowired
     private UserDOService userService;
 
+    @GetMapping("/helloAdmin")
+    @PreAuthorize("hasAnyRole('ROLE_admin')")
+    public String helloAdmin() {
+        System.out.println("hello Admin!");
+        return "hello admin";
+    }
+
     /**
      * 必须使用JSON格式
      * @param userDO
@@ -50,33 +58,33 @@ public class UserDOController {
         }
     }
 
-    @ApiOperation(value="登录", notes="登录接口")
-    @RequestMapping(value="/login", method= RequestMethod.POST)
-    @ResponseBody
-    public ResultDO login(@RequestParam("userId") Integer userId,
-                          @RequestParam("password") String password,
-                          HttpServletRequest request) {
-        try {
-            ResultDO resultDO = userService.login(userId, password);
-
-            if (resultDO.getCode() == HttpCode.SUCCESS.getCode()) {
-                HttpSession session = request.getSession();
-                session.setAttribute(session.getId(), userId);
-            }
-
-            return resultDO;
-        } catch (Exception e) {
-            logger.error("系统异常" + e);
-            return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
-        }
-    }
-
-    @ApiOperation(value="登出", notes="登出接口")
-    @RequestMapping(value = "/logout", method= RequestMethod.GET)
-    public String logout(HttpSession session){
-        session.removeAttribute(session.getId());
-        return "user logout success";
-    }
+//    @ApiOperation(value="登录", notes="登录接口")
+//    @RequestMapping(value="/login", method= RequestMethod.POST)
+//    @ResponseBody
+//    public ResultDO login(@RequestParam("userId") Integer userId,
+//                          @RequestParam("password") String password,
+//                          HttpServletRequest request) {
+//        try {
+//            ResultDO resultDO = userService.login(userId, password);
+//
+//            if (resultDO.getCode() == HttpCode.SUCCESS.getCode()) {
+//                HttpSession session = request.getSession();
+//                session.setAttribute(session.getId(), userId);
+//            }
+//
+//            return resultDO;
+//        } catch (Exception e) {
+//            logger.error("系统异常" + e);
+//            return new ResultDO(HttpCode.EXCEPTION.getCode(), "系统异常");
+//        }
+//    }
+//
+//    @ApiOperation(value="登出", notes="登出接口")
+//    @RequestMapping(value = "/logout", method= RequestMethod.GET)
+//    public String logout(HttpSession session){
+//        session.removeAttribute(session.getId());
+//        return "user logout success";
+//    }
 
     @ApiOperation(value="个人主页", notes="个人主页接口")
     @RequestMapping(value="/mine", method= RequestMethod.GET)

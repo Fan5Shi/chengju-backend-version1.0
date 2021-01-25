@@ -39,10 +39,28 @@ public class EventDO implements Serializable {
     private String eventAddr;
 
     /**
-     * 活动时间，格式为"yyyy-MM-dd"
+     * 活动容量
      */
-    @ApiModelProperty(value = "活动时间", dataType = "Date", example = "2021-01-01", required = true)
-    private Date eventTime;
+    @ApiModelProperty(value = "活动人数", dataType = "int", example = "20", required = true)
+    private Integer eventCapacity;
+
+    /**
+     * 活动开始时间，格式为"yyyy-MM-dd hh:mm:ss"
+     */
+    @ApiModelProperty(value = "活动开始时间", dataType = "Date", example = "2021-01-01 13:00:00", required = true)
+    private Date eventStartTime;
+
+    /**
+     * 活动结束时间，格式为"yyyy-MM-dd hh:mm:ss"
+     */
+    @ApiModelProperty(value = "活动结束时间", dataType = "Date", example = "2021-01-01 15:00:00", required = true)
+    private Date eventEndTime;
+
+    /**
+     * 报名结束时间，格式为"yyyy-MM-dd hh:mm:ss"
+     */
+    @ApiModelProperty(value = "报名结束时间", dataType = "Date", example = "2021-01-01 09:00:00", required = true)
+    private Date registerDeadline;
 
     /**
      * 活动描述
@@ -55,5 +73,11 @@ public class EventDO implements Serializable {
      */
     @ApiModelProperty(value = "学号/用户序号", dataType = "int", example = "20170001", required = true)
     private Integer userId;
+
+    /**
+     * 活动状态
+     */
+    @ApiModelProperty(value = "活动状态", dataType = "String", example = "BEING PROCESSING", required = true)
+    private String eventStatus = "BEING PROCESSING";
 
 }

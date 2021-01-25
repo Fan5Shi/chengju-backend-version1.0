@@ -28,23 +28,6 @@ public class UserDOServiceImpl implements UserDOService{
     private BCryptPasswordEncoder encoder;
 
     @Override
-    public ResultDO login(Integer userId, String password) {
-        logger.info("入参：userId - " + userId + "；password - " + password);
-        if (userId == 0 || password == null) {
-            return new ResultDO(HttpCode.FAIL.getCode(), "输入参数不能为0或空!");
-        }
-        UserDO userDO = userMapper.findUserById(userId);
-        System.out.println(userDO.toString());
-        if (userDO.getUserId() == null) {
-            return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), HttpCode.UNAUTHORIZED.getMsg() + " 不存在该用户！");
-        }
-        if (!encoder.matches(password, userDO.getPassword())) {
-            return new ResultDO(HttpCode.UNAUTHORIZED.getCode(), HttpCode.UNAUTHORIZED.getMsg() + " 用户密码错误！");
-        }
-        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 登录成功", userDO);
-    }
-
-    @Override
     public ResultDO findUserById(Integer userId) {
         logger.info("入参：" + userId);
         if (userId == null) {
@@ -58,8 +41,20 @@ public class UserDOServiceImpl implements UserDOService{
     }
 
     @Override
+    public ResultDO findUserByIdAdmin(Integer userId) {
+        logger.info("入参：" + userId);
+        if (userId == null) {
+            return new ResultDO(HttpCode.FAIL.getCode(), "输入的学号不能为空或0！");
+        }
+        UserDO userDO = userMapper.findUserByIdAdmin(userId);
+        if (userDO == null) {
+            return new ResultDO(HttpCode.FAIL.getCode(), "不存在此用户！");
+        }
+        return new ResultDO(HttpCode.SUCCESS.getCode(), HttpCode.SUCCESS.getMsg() + " 查找成功", userDO);
+    }
+
+    @Override
     public ResultDO insert(UserDO userDO) {
-        userDO.setPassword(encoder.encode(userDO.getPassword().trim()));
         logger.info("入参：" + userDO.toString());
         UserDO user = userMapper.findUserById(userDO.getUserId());
         if (user != null) {
@@ -76,6 +71,16 @@ public class UserDOServiceImpl implements UserDOService{
     public ResultDO update(UserDO userDO) {
         logger.info("入参：" + userDO.toString());
         int influencedLines = userMapper.update(userDO);
+        if (influencedLines <= 0) {
+            return new ResultDO(HttpCode.FAIL.getCode(), "更新失败");
+        }
+        return new ResultDO(HttpCode.CREATED.getCode(), "更新成功", influencedLines);
+    }
+
+    @Override
+    public ResultDO delete(Integer userId) {
+        logger.info("入参：" + userId);
+        int influencedLines = userMapper.delete(userId);
         if (influencedLines <= 0) {
             return new ResultDO(HttpCode.FAIL.getCode(), "更新失败");
         }
